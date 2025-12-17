@@ -136,5 +136,6 @@ EXPOSE 22
 ## Switch to user's HOME folder
 WORKDIR /home/${USER}/work
 RUN echo "source ~/work/devel/setup.bash"  >> ~/.bashrc
+RUN echo "export ROBOT_TYPE=HU_D04_01"  >> ~/.bashrc
 
 ENTRYPOINT ["/entrypoint.sh", "terminator"]
