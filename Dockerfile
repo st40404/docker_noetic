@@ -78,6 +78,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists
 
+# use GPU in docker
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    mesa-utils mesa-va-drivers mesa-vulkan-drivers \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists
+
 WORKDIR /home/${USER}/.tmp
 
 ## setup custom configuration
@@ -124,6 +130,11 @@ RUN mkdir -p /home/${USER}/.config/terminator && \
       parent = window0
 [plugins]
 EOF
+
+# solving gazebo permisstion problem
+ENV LIBGL_ALWAYS_SOFTWARE=1
+RUN usermod -aG video,render ${USER}
+
 
 ## Switch user to ${USER}
 USER ${USER}

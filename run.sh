@@ -56,14 +56,11 @@ docker_run() {
         --net=host \
         --ipc=host \
         $1 \
-        --privileged \
+        --device=/dev/dri:/dev/dri \
         -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-        -v ${HOME}/.Xauthority:$docker/.Xauthority \
-        -v /dev:/dev \
-        -v /etc/timezone:/etc/timezone:ro \
-        -v /etc/localtime:/etc/localtime:ro \
+        -v ${HOME}/.Xauthority:${HOME}/.Xauthority \
         -v ${workspace_path}:${HOME}/work \
-        -e XAUTHORITY=${HOME}_folder/.Xauthority \
+        -e XAUTHORITY=${HOME}/.Xauthority \
         -e DISPLAY=$DISPLAY \
         -e QT_X11_NO_MITSHM=1 \
         -it --name $container_name $(id -un)/${image_name}
